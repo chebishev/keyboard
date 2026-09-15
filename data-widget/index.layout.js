@@ -1,10 +1,17 @@
 import { px } from '@zos/utils'
 
 export const styles = {
-  firstRow: {
-    x: px(20),
-    y: px(220),
-    keyWidth: px(40),
-    keyHeight: px(60),
-  },
+  keyWidth: px(42),
+  keyHeight: px(60),
+
+  rows: [
+    {
+      x: px(9),
+      y: px(220),
+    },
+    {
+      x: px(9),
+      y: px(280),
+    },
+  ],
 }

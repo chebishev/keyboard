@@ -4,6 +4,9 @@ import {
   keyboard,
 } from '@zos/ui'
 
+import { styles } from "zosLoader:./index.[pf].layout.js";
+
+
 DataWidget({
   onInit() {
     console.log('BG keyboard: onInit')
@@ -12,17 +15,25 @@ DataWidget({
   build() {
     console.log('BG keyboard: build')
 
-    createWidget(widget.BUTTON, {
-      x: 200,
-      y: 250,
-      w: 80,
-      h: 60,
-      text: 'а',
+    const rows = [
+      ['я', 'в', 'е', 'р', 'т', 'ъ', 'у', 'и', 'о', 'п', 'ч'],
+      ['а', 'с', 'д', 'ф', 'г', 'х', 'й', 'к', 'л', 'ш', 'щ'],
+    ]
 
-      click_func: () => {
-        console.log('Pressed: а')
-        keyboard.inputText('а')
-      },
+    rows.forEach((row, rowIndex) => {
+      row.forEach((letter, keyIndex) => {
+        createWidget(widget.BUTTON, {
+          x: styles.rows[rowIndex].x + keyIndex * styles.keyWidth,
+          y: styles.rows[rowIndex].y,
+          w: styles.keyWidth,
+          h: styles.keyHeight,
+          text: letter,
+
+          click_func: () => {
+            keyboard.inputText(letter)
+          },
+        })
+      })
     })
   },
 
