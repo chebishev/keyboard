@@ -1,0 +1,72 @@
+{
+  "configVersion": "v3",
+  "app": {
+    "appId": 24486,
+    "appName": "BGPT Keyboard",
+    "appType": "app",
+    "version": {
+      "code": 1,
+      "name": "1.0.0"
+    },
+    "icon": "icon.png",
+    "vender": "chebishev",
+    "description": "Bulgarian phonetic traditional keyboard"
+  },
+  "permissions": ["device:os.input.method", "data:os.device.info"],
+  "runtime": {
+    "apiVersion": {
+      "compatible": "4.0",
+      "target": "4.0",
+      "minVersion": "4.2"
+    }
+  },
+  "targets": {
+    "default": {
+      "module": {
+        "page": {
+          "pages": [
+            "page/index",
+            "data-widget/index"
+          ]
+        },
+        "data-widget": {
+          "widgets": [
+            {
+              "name": "Българска клавиатура",
+              "path": "data-widget/index",
+              "icon": "icon.png",
+              "runtime": {
+                "ability": [
+                  {
+                    "name": "en-US",
+                    "type": 2,
+                    "subType": []
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "platforms": [
+        {
+          "st": "r",
+          "dw": 480
+        },
+        {
+          "st": "s",
+          "dw": 480
+        }
+      ]
+    }
+  },
+  "i18n": {
+    "en-US": {
+      "appName": "BGPT Keyboard"
+    },
+    "bg-BG": {
+      "appName": "Българска клавиатура"
+    }
+  },
+  "defaultLanguage": "en-US"
+}
