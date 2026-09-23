@@ -13,5 +13,9 @@ export const styles = {
       x: px(9),
       y: px(280),
     },
+    {
+      x: px(72),
+      y: px(340),
+    }
   ],
 }

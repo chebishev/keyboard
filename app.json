@@ -63,9 +63,6 @@
   "i18n": {
     "en-US": {
       "appName": "BGPT Keyboard"
-    },
-    "bg-BG": {
-      "appName": "Българска клавиатура"
     }
   },
   "defaultLanguage": "en-US"
