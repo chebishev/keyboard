@@ -8,6 +8,7 @@ import { styles } from "zosLoader:./index.[pf].layout.js"
 
 let shiftEnabled = false;
 const letterWidgets = [];
+let shiftImage = null;
 let enterImage = null;
 let deleteImage = null
 let deleteButton = null
@@ -53,7 +54,6 @@ function updateEnterState() {
 DataWidget({
   onInit() {
     console.log('BG keyboard: onInit')
-    console.log(keyboard.hasText)
 
     // Temporary test - we'll remove it later
     const rect = keyboard.getContentRect()
@@ -65,7 +65,7 @@ DataWidget({
       rect.h
     )
   },
-  
+
   build() {
     console.log('BG keyboard: build')
 
@@ -152,14 +152,21 @@ DataWidget({
 
             shiftEnabled = !shiftEnabled
             updateKeyboardCase()
+
+            shiftImage.setProperty(
+              prop.SRC,
+              shiftEnabled
+                ? "image/shift_on_caps.png"
+                : "image/shift_on.png"
+            )
           },
         })
 
         shiftButton.setAlpha(0)
         // show the arrow
-        createWidget(widget.IMG, {
+        shiftImage = createWidget(widget.IMG, {
           parent: shiftContainer,
-          src: shiftEnabled ? "image/shift_on_caps.png" : "image/shift_off.png",
+          src: "image/shift_on.png",
           enable: false,
           layout: {
             width: "32",
@@ -270,7 +277,16 @@ DataWidget({
     })
     updateEnterState()
   },
+  onResume() {
+    console.log("BG keyboard: onResume")
+    console.log("context on resume:", keyboard.getTextContext())
 
+    updateEnterState()
+  },
+
+  onPause() {
+    console.log("BG keyboard: onPause")
+  },
   onDestroy() {
     console.log('BG keyboard: onDestroy')
   },
