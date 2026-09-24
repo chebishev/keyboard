@@ -30,8 +30,8 @@ function updateEnterState() {
     enterImage.setProperty(
       prop.SRC,
       hasText
-        ? "image/tick.png"
-        : "image/shift.png"
+        ? "image/check.png"
+        : "image/cancel.png"
     )
   }
 
@@ -53,6 +53,7 @@ function updateEnterState() {
 DataWidget({
   onInit() {
     console.log('BG keyboard: onInit')
+    console.log(keyboard.hasText)
 
     // Temporary test - we'll remove it later
     const rect = keyboard.getContentRect()
@@ -64,7 +65,7 @@ DataWidget({
       rect.h
     )
   },
-
+  
   build() {
     console.log('BG keyboard: build')
 
@@ -82,8 +83,8 @@ DataWidget({
     deleteButton = createWidget(widget.BUTTON, {
       parent: vc,
 
-      x: 335,
-      y: 20,
+      x: 380,
+      y: 100,
       w: 64,
       h: 64,
 
@@ -101,11 +102,11 @@ DataWidget({
 
     deleteImage = createWidget(widget.IMG, {
       parent: vc,
-      src: "image/del.png",
+      src: "image/delete.png",
       enable: false,
 
-      x: 335,
-      y: 20,
+      x: 380,
+      y: 100,
       w: 64,
       h: 64,
     })
@@ -147,6 +148,8 @@ DataWidget({
           },
 
           click_func: () => {
+            console.log("context:", keyboard.getTextContext())
+
             shiftEnabled = !shiftEnabled
             updateKeyboardCase()
           },
@@ -156,7 +159,7 @@ DataWidget({
         // show the arrow
         createWidget(widget.IMG, {
           parent: shiftContainer,
-          src: "image/shift.png",
+          src: shiftEnabled ? "image/shift_on_caps.png" : "image/shift_off.png",
           enable: false,
           layout: {
             width: "32",
@@ -206,7 +209,7 @@ DataWidget({
         },
       },
       {
-        src: "image/space.png", action: () => {
+        src: "image/blank.png", action: () => {
           keyboard.inputText(" ")
           updateEnterState()
         }
@@ -214,7 +217,7 @@ DataWidget({
       },
       {
         type: "enter",
-        src: "image/tick.png",
+        src: "image/check.png",
         action: () => {
           if (keyboard.getTextContext()) {
             keyboard.sendFnKey(keyboard.ENTER)

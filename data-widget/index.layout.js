@@ -20,7 +20,7 @@ export const styles = {
     layout: {
       display: "flex",
       flex_flow: "column",
-      gap: "10",
+      gap: "25",
       width: "100%",
       flex_grow: "1",
     },
