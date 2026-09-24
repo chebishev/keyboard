@@ -67,14 +67,6 @@ DataWidget({
 
   build() {
     console.log('BG keyboard: build')
-    //background for more visibillity
-    createWidget(widget.CIRCLE, {
-      center_x: 240,
-      center_y: 240,
-      radius: 240,
-      color: 0xfc6950,
-      alpha: 200
-    })
 
     // Main container
     const vc = createWidget(widget.VIRTUAL_CONTAINER, {
@@ -90,13 +82,17 @@ DataWidget({
     deleteButton = createWidget(widget.BUTTON, {
       parent: vc,
 
-      x: 390,
-      y: 0,
+      x: 335,
+      y: 20,
       w: 64,
       h: 64,
 
       click_func: () => {
         keyboard.sendFnKey(keyboard.BACKSPACE)
+        updateEnterState()
+      },
+      longpress_func: () => {
+        keyboard.clearInput()
         updateEnterState()
       },
     })
@@ -108,8 +104,8 @@ DataWidget({
       src: "image/del.png",
       enable: false,
 
-      x: 390,
-      y: 0,
+      x: 335,
+      y: 20,
       w: 64,
       h: 64,
     })
@@ -184,9 +180,9 @@ DataWidget({
           },
         })
         letterWidgets.push({
-    widget: letterWidget,
-    letter: letter,
-  })
+          widget: letterWidget,
+          letter: letter,
+        })
       })
     })
     const actionRow = createWidget(widget.VIRTUAL_CONTAINER, {
@@ -209,12 +205,13 @@ DataWidget({
           keyboard.sendFnKey(keyboard.SELECT)
         },
       },
-      { src: "image/space.png", action: () => {
-        keyboard.inputText(" ")
-        updateEnterState()
-      }
-        
-       },
+      {
+        src: "image/space.png", action: () => {
+          keyboard.inputText(" ")
+          updateEnterState()
+        }
+
+      },
       {
         type: "enter",
         src: "image/tick.png",
