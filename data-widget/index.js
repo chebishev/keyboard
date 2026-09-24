@@ -9,6 +9,8 @@ import { styles } from "zosLoader:./index.[pf].layout.js"
 let shiftEnabled = false;
 const letterWidgets = [];
 let enterImage = null;
+let deleteImage = null
+let deleteButton = null
 
 function updateKeyboardCase() {
   letterWidgets.forEach((key) => {
@@ -22,14 +24,30 @@ function updateKeyboardCase() {
 }
 
 function updateEnterState() {
-  if (!enterImage) return
+  const hasText = !!keyboard.getTextContext()
 
-  enterImage.setProperty(
-    prop.SRC,
-    keyboard.getTextContext()
-      ? "image/tick.png"
-      : "image/shift.png"
-  )
+  if (enterImage) {
+    enterImage.setProperty(
+      prop.SRC,
+      hasText
+        ? "image/tick.png"
+        : "image/shift.png"
+    )
+  }
+
+  if (deleteImage) {
+    deleteImage.setProperty(
+      prop.VISIBLE,
+      hasText
+    )
+  }
+
+  if (deleteButton) {
+    deleteButton.setProperty(
+      prop.VISIBLE,
+      hasText
+    )
+  }
 }
 
 DataWidget({
@@ -67,6 +85,33 @@ DataWidget({
     const keyboardWidget = createWidget(widget.VIRTUAL_CONTAINER, {
       parent: vc,
       ...styles.keyboard,
+    })
+
+    deleteButton = createWidget(widget.BUTTON, {
+      parent: vc,
+
+      x: 390,
+      y: 0,
+      w: 64,
+      h: 64,
+
+      click_func: () => {
+        keyboard.sendFnKey(keyboard.BACKSPACE)
+        updateEnterState()
+      },
+    })
+
+    deleteButton.setAlpha(0)
+
+    deleteImage = createWidget(widget.IMG, {
+      parent: vc,
+      src: "image/del.png",
+      enable: false,
+
+      x: 390,
+      y: 0,
+      w: 64,
+      h: 64,
     })
 
     const rows = [
@@ -138,6 +183,10 @@ DataWidget({
             updateEnterState()
           },
         })
+        letterWidgets.push({
+    widget: letterWidget,
+    letter: letter,
+  })
       })
     })
     const actionRow = createWidget(widget.VIRTUAL_CONTAINER, {
@@ -152,13 +201,20 @@ DataWidget({
       {
         src: "image/globe.png",
         action: () => {
+          // change language
           keyboard.sendFnKey(keyboard.SWITCH)
         },
         longpress_func: () => {
+          // open additional input methods and settings
           keyboard.sendFnKey(keyboard.SELECT)
         },
       },
-      { src: "image/space.png", action: () => keyboard.inputText(" ") },
+      { src: "image/space.png", action: () => {
+        keyboard.inputText(" ")
+        updateEnterState()
+      }
+        
+       },
       {
         type: "enter",
         src: "image/tick.png",
@@ -193,6 +249,7 @@ DataWidget({
           tags: "ignore-layout",
         },
         click_func: key.action,
+        longpress_func: key.longpress_func,
       })
 
       btn.setAlpha(0)
