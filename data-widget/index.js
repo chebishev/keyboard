@@ -280,12 +280,13 @@ DataWidget({
   onResume() {
     console.log("BG keyboard: onResume")
     console.log("context on resume:", keyboard.getTextContext())
-
     updateEnterState()
   },
 
   onPause() {
     console.log("BG keyboard: onPause")
+    console.log("context on resume:", keyboard.getTextContext())
+    updateEnterState()
   },
   onDestroy() {
     console.log('BG keyboard: onDestroy')
