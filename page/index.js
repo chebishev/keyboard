@@ -4,7 +4,6 @@ Page({
   build() {
     createKeyboard({
       inputType: inputType.JSKB,
-      text: 'Имало едно време',
     })
   },
 

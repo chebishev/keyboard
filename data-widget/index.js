@@ -4,11 +4,11 @@ import {
   keyboard,
   prop,
 } from '@zos/ui'
-import { log } from '@zos/utils'
 import { styles } from "zosLoader:./index.[pf].layout.js"
 
-let shiftEnabled = false
-const letterWidgets = []
+let shiftEnabled = false;
+const letterWidgets = [];
+let enterImage = null;
 
 function updateKeyboardCase() {
   letterWidgets.forEach((key) => {
@@ -19,6 +19,17 @@ function updateKeyboardCase() {
         : key.letter
     )
   })
+}
+
+function updateEnterState() {
+  if (!enterImage) return
+
+  enterImage.setProperty(
+    prop.SRC,
+    keyboard.getTextContext()
+      ? "image/tick.png"
+      : "image/shift.png"
+  )
 }
 
 DataWidget({
@@ -124,6 +135,7 @@ DataWidget({
               : letter
 
             keyboard.inputText(output)
+            updateEnterState()
           },
         })
       })
@@ -148,7 +160,9 @@ DataWidget({
       },
       { src: "image/space.png", action: () => keyboard.inputText(" ") },
       {
-        src: "image/tick.png", action: () => {
+        type: "enter",
+        src: "image/tick.png",
+        action: () => {
           if (keyboard.getTextContext()) {
             keyboard.sendFnKey(keyboard.ENTER)
           } else {
@@ -183,7 +197,7 @@ DataWidget({
 
       btn.setAlpha(0)
 
-      createWidget(widget.IMG, {
+      const img = createWidget(widget.IMG, {
         parent: keyContainer,
         src: key.src,
         enable: false,
@@ -192,7 +206,12 @@ DataWidget({
           height: "64",
         },
       })
+
+      if (key.type === "enter") {
+        enterImage = img;
+      }
     })
+    updateEnterState()
   },
 
   onDestroy() {
