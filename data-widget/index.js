@@ -137,9 +137,25 @@ DataWidget({
     })
 
     const actionKeys = [
-      { src: "image/globe.png", action: () => { } },
+      {
+        src: "image/globe.png",
+        action: () => {
+          keyboard.sendFnKey(keyboard.SWITCH)
+        },
+        longpress_func: () => {
+          keyboard.sendFnKey(keyboard.SELECT)
+        },
+      },
       { src: "image/space.png", action: () => keyboard.inputText(" ") },
-      { src: "image/tick.png", action: () => { } },
+      {
+        src: "image/tick.png", action: () => {
+          if (keyboard.getTextContext()) {
+            keyboard.sendFnKey(keyboard.ENTER)
+          } else {
+            keyboard.sendFnKey(keyboard.CANCEL)
+          }
+        }
+      },
     ]
 
     actionKeys.forEach((key) => {
