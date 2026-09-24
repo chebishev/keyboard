@@ -2,43 +2,15 @@ import {
   createWidget,
   widget,
   keyboard,
-  prop,
 } from '@zos/ui'
-import { styles } from "zosLoader:./index.[pf].layout.js";
 
-let shiftWidget = null;
-// Flag for pressed Shift button
-let shiftEnabled = false;
-// References to all letter widgets
-const letterWidgets = [];
-
-function updateKeyboardCase() {
-  letterWidgets.forEach((key) => {
-    key.widget.setProperty(
-      prop.TEXT,
-      shiftEnabled ? key.letter.toUpperCase() : key.letter
-    )
-  })
-}
-
-function updateShiftButton() {
-  shiftWidget.setProperty(prop.MORE, {
-    x: 15,
-    y: 340,
-    w: 50,
-    h: styles.keyHeight,
-    text: shiftEnabled ? '⬆' : '⇧',
-    // color: shiftEnabled ? 0x00ff00 : 0xffffff,
-    normal_color: 0x000000,
-    press_color: 0x000000,
-  })
-}
+import { styles } from "zosLoader:./index.[pf].layout.js"
 
 DataWidget({
   onInit() {
     console.log('BG keyboard: onInit')
 
-    //test keyboard properties (to be removed)
+    // Temporary test - we'll remove it later
     const rect = keyboard.getContentRect()
     console.log(
       'content rect:',
@@ -51,25 +23,23 @@ DataWidget({
 
   build() {
     console.log('BG keyboard: build')
+    createWidget(widget.CIRCLE, {
+      center_x: 240,
+      center_y: 240,
+      radius: 240,
+      color: 0xfc6950,
+      alpha: 200
+    })
 
-    // shift button placed on the left of the third row
-    shiftWidget = createWidget(widget.BUTTON, {
-      x: 15,
-      y: 340,
-      w: 50,
-      h: styles.keyHeight,
-      text: '⇧',
-      normal_color: 0x000000,
-      press_color: 0x000000,
+    // Main container
+    const vc = createWidget(widget.VIRTUAL_CONTAINER, {
+      ...styles.container,
+    })
 
-
-      click_func: () => {
-        shiftEnabled = !shiftEnabled;
-        updateShiftButton();
-        updateKeyboardCase();
-
-        console.log('Shift:', shiftEnabled)
-      },
+    // Container holding all keyboard rows
+    const keyboardWidget = createWidget(widget.VIRTUAL_CONTAINER, {
+      parent: vc,
+      ...styles.keyboard,
     })
 
     const rows = [
@@ -78,26 +48,23 @@ DataWidget({
       ['з', 'ь', 'ц', 'ж', 'б', 'н', 'м', 'ю'],
     ]
 
-    rows.forEach((row, rowIndex) => {
-      row.forEach((letter, keyIndex) => {
-        const keyWidget = createWidget(widget.BUTTON, {
-          x: styles.rows[rowIndex].x + keyIndex * styles.keyWidth,
-          y: styles.rows[rowIndex].y,
-          w: styles.keyWidth,
-          h: styles.keyHeight,
+    rows.forEach((row) => {
+      // Each array becomes its own flex row
+      const rowWidget = createWidget(widget.VIRTUAL_CONTAINER, {
+        parent: keyboardWidget,
+        ...styles.keyboardRow,
+      })
+
+      row.forEach((letter) => {
+        createWidget(widget.BUTTON, {
+          parent: rowWidget,
+          ...styles.keyButton,
+
           text: letter,
-          normal_color: 0x000000,
-          press_color: 0x000000,
 
           click_func: () => {
-            const output = shiftEnabled ? letter.toUpperCase() : letter;
-
-            keyboard.inputText(output)
+            keyboard.inputText(letter)
           },
-        })
-        letterWidgets.push({
-          widget: keyWidget,
-          letter: letter,
         })
       })
     })
