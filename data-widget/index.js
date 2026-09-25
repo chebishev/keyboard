@@ -53,6 +53,32 @@ function updateEnterState() {
   }
 }
 
+function addImagePressEffect(button, image) {
+  button.addEventListener(event.CLICK_DOWN, () => {
+    image.setAlpha(182)
+  })
+
+  button.addEventListener(event.CLICK_UP, () => {
+    image.setAlpha(255)
+  })
+}
+
+function addLetterPressEffect(button) {
+  button.addEventListener(event.CLICK_DOWN, () => {
+    button.setProperty(prop.MORE, {
+      ...styles.keyButton,
+      color: 0xb6b6b6,
+    })
+  })
+
+  button.addEventListener(event.CLICK_UP, () => {
+    button.setProperty(prop.MORE, {
+      ...styles.keyButton,
+      color: 0xffffff,
+    })
+  })
+}
+
 DataWidget({
   onInit() {
     console.log('BG keyboard: onInit')
@@ -82,6 +108,17 @@ DataWidget({
       ...styles.keyboard,
     })
 
+    deleteImage = createWidget(widget.IMG, {
+      parent: vc,
+      src: "image/delete.png",
+      enable: false,
+
+      x: 380,
+      y: 100,
+      w: 64,
+      h: 64,
+    })
+
     deleteButton = createWidget(widget.BUTTON, {
       parent: vc,
 
@@ -94,6 +131,7 @@ DataWidget({
         keyboard.sendFnKey(keyboard.BACKSPACE)
         updateEnterState()
       },
+
       longpress_func: () => {
         keyboard.clearInput()
         updateEnterState()
@@ -102,24 +140,7 @@ DataWidget({
 
     deleteButton.setAlpha(0)
 
-    deleteButton.addEventListener(event.CLICK_DOWN, () => {
-      deleteImage.setAlpha(182)
-    })
-
-    deleteButton.addEventListener(event.CLICK_UP, () => {
-      deleteImage.setAlpha(255)
-    })
-
-    deleteImage = createWidget(widget.IMG, {
-      parent: vc,
-      src: "image/delete.png",
-      enable: false,
-
-      x: 380,
-      y: 100,
-      w: 64,
-      h: 64,
-    })
+    addImagePressEffect(deleteButton, deleteImage)
 
     const rows = [
       ['я', 'в', 'е', 'р', 'т', 'ъ', 'у', 'и', 'о', 'п', 'ч'],
@@ -197,20 +218,9 @@ DataWidget({
             updateEnterState()
           },
         })
-        // change letter color on press
-        letterWidget.addEventListener(event.CLICK_DOWN, () => {
-          letterWidget.setProperty(prop.MORE, {
-            ...styles.keyButton,
-            color: 0xb6b6b6,
-          })
-        })
-        // reset letter color on release
-        letterWidget.addEventListener(event.CLICK_UP, () => {
-          letterWidget.setProperty(prop.MORE, {
-            ...styles.keyButton,
-            color: 0xffffff,
-          })
-        })
+
+        addLetterPressEffect(letterWidget)
+
         letterWidgets.push({
           widget: letterWidget,
           letter: letter,
@@ -274,6 +284,16 @@ DataWidget({
         },
       })
 
+      const img = createWidget(widget.IMG, {
+        parent: keyContainer,
+        src: key.src,
+        enable: false,
+        layout: {
+          width: "64",
+          height: "64",
+        },
+      })
+
       const btn = createWidget(widget.BUTTON, {
         parent: keyContainer,
         layout: {
@@ -286,30 +306,15 @@ DataWidget({
       })
 
       btn.setAlpha(0)
-      btn.addEventListener(event.CLICK_DOWN, () => {
-        img.setAlpha(182)
-      })
 
-      btn.addEventListener(event.CLICK_UP, () => {
-        img.setAlpha(255)
-      })
-
-      const img = createWidget(widget.IMG, {
-        parent: keyContainer,
-        src: key.src,
-        enable: false,
-        layout: {
-          width: "64",
-          height: "64",
-        },
-      })
+      addImagePressEffect(btn, img)
 
       if (key.type === "globe") {
-        globeImage = img;
+        globeImage = img
       }
 
       if (key.type === "enter") {
-        enterImage = img;
+        enterImage = img
       }
     })
     updateEnterState()
@@ -317,6 +322,7 @@ DataWidget({
   onResume() {
     console.log("BG keyboard: onResume")
 
+    // revert swich input image to original state
     if (globeImage) {
       globeImage.setAlpha(255)
     }
