@@ -11,8 +11,9 @@ let shiftEnabled = false;
 const letterWidgets = [];
 let shiftImage = null;
 let enterImage = null;
-let deleteImage = null
-let deleteButton = null
+let deleteImage = null;
+let deleteButton = null;
+let globeImage = null;
 
 function updateKeyboardCase() {
   letterWidgets.forEach((key) => {
@@ -100,6 +101,14 @@ DataWidget({
     })
 
     deleteButton.setAlpha(0)
+
+    deleteButton.addEventListener(event.CLICK_DOWN, () => {
+      deleteImage.setAlpha(182)
+    })
+
+    deleteButton.addEventListener(event.CLICK_UP, () => {
+      deleteImage.setAlpha(255)
+    })
 
     deleteImage = createWidget(widget.IMG, {
       parent: vc,
@@ -218,6 +227,7 @@ DataWidget({
     // switch EN/BG, space, enter/cancel
     const actionKeys = [
       {
+        type: "globe",
         src: "image/globe.png",
         action: () => {
           // change language
@@ -276,6 +286,13 @@ DataWidget({
       })
 
       btn.setAlpha(0)
+      btn.addEventListener(event.CLICK_DOWN, () => {
+        img.setAlpha(182)
+      })
+
+      btn.addEventListener(event.CLICK_UP, () => {
+        img.setAlpha(255)
+      })
 
       const img = createWidget(widget.IMG, {
         parent: keyContainer,
@@ -287,13 +304,23 @@ DataWidget({
         },
       })
 
+      if (key.type === "globe") {
+        globeImage = img;
+      }
+
       if (key.type === "enter") {
         enterImage = img;
       }
     })
     updateEnterState()
   },
+  onResume() {
+    console.log("BG keyboard: onResume")
 
+    if (globeImage) {
+      globeImage.setAlpha(255)
+    }
+  },
   onDestroy() {
     console.log('BG keyboard: onDestroy')
   },
