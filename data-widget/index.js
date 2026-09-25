@@ -3,6 +3,7 @@ import {
   widget,
   keyboard,
   prop,
+  event,
 } from '@zos/ui'
 import { styles } from "zosLoader:./index.[pf].layout.js"
 
@@ -148,11 +149,10 @@ DataWidget({
           },
 
           click_func: () => {
-            console.log("context:", keyboard.getTextContext())
-
             shiftEnabled = !shiftEnabled
             updateKeyboardCase()
 
+            // change shift icon for each press according to the state
             shiftImage.setProperty(
               prop.SRC,
               shiftEnabled
@@ -184,10 +184,23 @@ DataWidget({
             const output = shiftEnabled
               ? letter.toUpperCase()
               : letter
-
             keyboard.inputText(output)
             updateEnterState()
           },
+        })
+        // change letter color on press
+        letterWidget.addEventListener(event.CLICK_DOWN, () => {
+          letterWidget.setProperty(prop.MORE, {
+            ...styles.keyButton,
+            color: 0xb6b6b6,
+          })
+        })
+        // reset letter color on release
+        letterWidget.addEventListener(event.CLICK_UP, () => {
+          letterWidget.setProperty(prop.MORE, {
+            ...styles.keyButton,
+            color: 0xffffff,
+          })
         })
         letterWidgets.push({
           widget: letterWidget,
@@ -202,7 +215,7 @@ DataWidget({
         justify_content: "center",
       },
     })
-
+    // switch EN/BG, space, enter/cancel
     const actionKeys = [
       {
         src: "image/globe.png",
@@ -217,6 +230,7 @@ DataWidget({
       },
       {
         src: "image/blank.png", action: () => {
+          // add empty space to the text
           keyboard.inputText(" ")
           updateEnterState()
         }
@@ -227,8 +241,10 @@ DataWidget({
         src: "image/check.png",
         action: () => {
           if (keyboard.getTextContext()) {
+            // send the text to wherever is needed
             keyboard.sendFnKey(keyboard.ENTER)
           } else {
+            // close the keyboard
             keyboard.sendFnKey(keyboard.CANCEL)
           }
         }
@@ -277,17 +293,7 @@ DataWidget({
     })
     updateEnterState()
   },
-  onResume() {
-    console.log("BG keyboard: onResume")
-    console.log("context on resume:", keyboard.getTextContext())
-    updateEnterState()
-  },
 
-  onPause() {
-    console.log("BG keyboard: onPause")
-    console.log("context on resume:", keyboard.getTextContext())
-    updateEnterState()
-  },
   onDestroy() {
     console.log('BG keyboard: onDestroy')
   },
