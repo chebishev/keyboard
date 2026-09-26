@@ -82,16 +82,6 @@ function addLetterPressEffect(button) {
 DataWidget({
   onInit() {
     console.log('BG keyboard: onInit')
-
-    // Temporary test - we'll remove it later
-    const rect = keyboard.getContentRect()
-    console.log(
-      'content rect:',
-      rect.x,
-      rect.y,
-      rect.w,
-      rect.h
-    )
   },
 
   build() {
@@ -145,7 +135,7 @@ DataWidget({
     const rows = [
       ['я', 'в', 'е', 'р', 'т', 'ъ', 'у', 'и', 'о', 'п', 'ч'],
       ['а', 'с', 'д', 'ф', 'г', 'х', 'й', 'к', 'л', 'ш', 'щ'],
-      ['з', 'ь', 'ц', 'ж', 'б', 'н', 'м', 'ю'],
+      ['з', 'ь', 'ц', 'ж', 'б', 'н', 'м', 'ю', '.'],
     ]
 
     rows.forEach((row, rowIndex) => {
@@ -320,8 +310,8 @@ DataWidget({
     updateEnterState()
   },
   onResume() {
-    console.log("BG keyboard: onResume")
-
+    console.log("BG Resume:", keyboard.getTextContext())
+    updateEnterState()
     // revert swich input image to original state
     if (globeImage) {
       globeImage.setAlpha(255)
