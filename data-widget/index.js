@@ -7,10 +7,13 @@ import {
 } from '@zos/ui'
 import { styles } from "zosLoader:./index.[pf].layout.js"
 
+const longPressCharacters = {
+  'и': 'ѝ',
+  '.': ',',
+}
 let shiftEnabled = false;
 const letterWidgets = [];
 let shiftImage = null;
-let enterImage = null;
 let deleteImage = null;
 let deleteButton = null;
 let globeImage = null;
@@ -26,32 +29,6 @@ function updateKeyboardCase() {
   })
 }
 
-function updateEnterState() {
-  const hasText = !!keyboard.getTextContext()
-
-  if (enterImage) {
-    enterImage.setProperty(
-      prop.SRC,
-      hasText
-        ? "image/check.png"
-        : "image/cancel.png"
-    )
-  }
-
-  if (deleteImage) {
-    deleteImage.setProperty(
-      prop.VISIBLE,
-      hasText
-    )
-  }
-
-  if (deleteButton) {
-    deleteButton.setProperty(
-      prop.VISIBLE,
-      hasText
-    )
-  }
-}
 
 function addImagePressEffect(button, image) {
   button.addEventListener(event.CLICK_DOWN, () => {
@@ -81,11 +58,10 @@ function addLetterPressEffect(button) {
 
 DataWidget({
   onInit() {
-    console.log('BG keyboard: onInit')
+    console.log("INIT")
   },
-
   build() {
-    console.log('BG keyboard: build')
+    console.log("BUILD")
 
     // Main container
     const vc = createWidget(widget.VIRTUAL_CONTAINER, {
@@ -104,7 +80,7 @@ DataWidget({
       enable: false,
 
       x: 380,
-      y: 100,
+      y: 102,
       w: 64,
       h: 64,
     })
@@ -113,18 +89,16 @@ DataWidget({
       parent: vc,
 
       x: 380,
-      y: 100,
+      y: 102,
       w: 64,
       h: 64,
 
       click_func: () => {
         keyboard.sendFnKey(keyboard.BACKSPACE)
-        updateEnterState()
       },
 
       longpress_func: () => {
         keyboard.clearInput()
-        updateEnterState()
       },
     })
 
@@ -204,9 +178,20 @@ DataWidget({
             const output = shiftEnabled
               ? letter.toUpperCase()
               : letter
+
             keyboard.inputText(output)
-            updateEnterState()
           },
+          longpress_func: () => {
+            const character = longPressCharacters[letter]
+
+            if (!character) return
+
+            const output = shiftEnabled
+              ? character.toUpperCase()
+              : character
+
+            keyboard.inputText(output)
+          }
         })
 
         addLetterPressEffect(letterWidget)
@@ -242,7 +227,6 @@ DataWidget({
         src: "image/blank.png", action: () => {
           // add empty space to the text
           keyboard.inputText(" ")
-          updateEnterState()
         }
 
       },
@@ -307,16 +291,14 @@ DataWidget({
         enterImage = img
       }
     })
-    updateEnterState()
   },
   onResume() {
-    console.log("BG Resume:", keyboard.getTextContext())
-    updateEnterState()
     // revert swich input image to original state
     if (globeImage) {
       globeImage.setAlpha(255)
     }
   },
+
   onDestroy() {
     console.log('BG keyboard: onDestroy')
   },
