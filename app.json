@@ -12,7 +12,10 @@
     "vender": "chebishev",
     "description": "Bulgarian phonetic traditional keyboard"
   },
-  "permissions": ["device:os.input.method", "data:os.device.info"],
+  "permissions": [
+    "device:os.input.method",
+    "data:os.device.info"
+  ],
   "runtime": {
     "apiVersion": {
       "compatible": "4.0",
@@ -26,13 +29,14 @@
         "page": {
           "pages": [
             "page/index",
+            "page/about",
             "data-widget/index"
           ]
         },
         "data-widget": {
           "widgets": [
             {
-              "name": "Българска клавиатура",
+              "name": "BGPT Keyboard",
               "path": "data-widget/index",
               "icon": "icon.png",
               "runtime": {
@@ -51,10 +55,6 @@
       "platforms": [
         {
           "st": "r",
-          "dw": 480
-        },
-        {
-          "st": "s",
           "dw": 480
         }
       ]
