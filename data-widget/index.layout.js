@@ -49,4 +49,55 @@ export const styles = {
       font_size: "40",
     },
   },
+
+  deleteKey: {
+    x: 380,
+    y: 102,
+    w: 64,
+    h: 64,
+  },
+
+  shiftContainer: {
+    layout: {
+      width: "8%",
+      height: "100%",
+      display: "flex",
+      justify_content: "center",
+      align_items: "center",
+      align_content: "center",
+    },
+  },
+
+  overlayButton: {
+    layout: {
+      width: "100%",
+      height: "100%",
+      tags: "ignore-layout",
+    },
+  },
+
+  shiftImage: {
+    layout: {
+      width: "32",
+      height: "32",
+    },
+  },
+
+  actionKeyContainer: {
+    layout: {
+      width: "18%",
+      height: "100%",
+      display: "flex",
+      justify_content: "center",
+      align_items: "center",
+      align_content: "center",
+    },
+  },
+
+  actionImage: {
+    layout: {
+      width: "64",
+      height: "64",
+    },
+  },
 }

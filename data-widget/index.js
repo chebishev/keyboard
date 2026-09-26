@@ -78,20 +78,12 @@ DataWidget({
       parent: vc,
       src: "image/delete.png",
       enable: false,
-
-      x: 380,
-      y: 102,
-      w: 64,
-      h: 64,
+      ...styles.deleteKey,
     })
 
     deleteButton = createWidget(widget.BUTTON, {
       parent: vc,
-
-      x: 380,
-      y: 102,
-      w: 64,
-      h: 64,
+      ...styles.deleteKey,
 
       click_func: () => {
         keyboard.sendFnKey(keyboard.BACKSPACE)
@@ -123,25 +115,13 @@ DataWidget({
         // create the shift button before the keyboard letters
         const shiftContainer = createWidget(widget.VIRTUAL_CONTAINER, {
           parent: rowWidget,
-          layout: {
-            width: "8%",
-            height: "100%",
-            display: "flex",
-            justify_content: "center",
-            align_items: "center",
-            align_content: "center",
-          },
+          ...styles.shiftContainer,
         })
         // invisible button over the arrow image
         const shiftButton = createWidget(widget.BUTTON, {
           parent: shiftContainer,
-
-          layout: {
-            width: "100%",
-            height: "100%",
-            tags: "ignore-layout",
-          },
-
+          ...styles.overlayButton,
+        
           click_func: () => {
             shiftEnabled = !shiftEnabled
             updateKeyboardCase()
@@ -157,15 +137,13 @@ DataWidget({
         })
 
         shiftButton.setAlpha(0)
+
         // show the arrow
         shiftImage = createWidget(widget.IMG, {
           parent: shiftContainer,
           src: "image/shift_on.png",
           enable: false,
-          layout: {
-            width: "32",
-            height: "32",
-          },
+          ...styles.shiftImage,
         })
       }
       row.forEach((letter) => {
@@ -206,7 +184,6 @@ DataWidget({
       parent: keyboardWidget,
       layout: {
         ...styles.keyboardRow.layout,
-        justify_content: "center",
       },
     })
     // switch EN/BG, space, enter/cancel
@@ -248,33 +225,19 @@ DataWidget({
     actionKeys.forEach((key) => {
       const keyContainer = createWidget(widget.VIRTUAL_CONTAINER, {
         parent: actionRow,
-        layout: {
-          width: "18%",
-          height: "100%",
-          display: "flex",
-          justify_content: "center",
-          align_items: "center",
-          align_content: "center",
-        },
+        ...styles.actionKeyContainer,
       })
 
       const img = createWidget(widget.IMG, {
         parent: keyContainer,
         src: key.src,
         enable: false,
-        layout: {
-          width: "64",
-          height: "64",
-        },
+        ...styles.actionImage,
       })
 
       const btn = createWidget(widget.BUTTON, {
         parent: keyContainer,
-        layout: {
-          width: "100%",
-          height: "100%",
-          tags: "ignore-layout",
-        },
+        ...styles.overlayButton,
         click_func: key.action,
         longpress_func: key.longpress_func,
       })
@@ -285,10 +248,6 @@ DataWidget({
 
       if (key.type === "globe") {
         globeImage = img
-      }
-
-      if (key.type === "enter") {
-        enterImage = img
       }
     })
   },
