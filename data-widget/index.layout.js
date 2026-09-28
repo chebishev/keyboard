@@ -1,6 +1,9 @@
-import { keyboard } from '@zos/ui'
+import { keyboard } from '@zos/ui';
+import { getDeviceInfo } from '@zos/device';
+import { px } from '@zos/utils';
 
 const { h } = keyboard.getContentRect()
+const { width: DEVICE_WIDTH } = getDeviceInfo()
 
 export const styles = {
   container: {
@@ -51,10 +54,10 @@ export const styles = {
   },
 
   deleteKey: {
-    x: 380,
-    y: 102,
-    w: 64,
-    h: 64,
+    x: DEVICE_WIDTH - px(100),
+    y: h - px(48),
+    w: px(64),
+    h: px(64),
   },
 
   shiftContainer: {
