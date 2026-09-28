@@ -23,4 +23,10 @@ Zepp OS devices.
 Based on the official Zepp OS Simple Keyboard sample:
 https://github.com/zepp-health/zeppos-samples/tree/main/application/4.2/simple-keyboard
 
+## Screenshots
+![Image](./assets/default.r/icon.png)
+![Image](./screenshots/keyboard.png)
+![Image](./screenshots/about.png)
+
+## License
 Zepp OS samples are provided by Zepp Health under the Apache License 2.0.
