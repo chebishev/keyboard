@@ -7,24 +7,6 @@ import {
 } from '@zos/ui'
 import { styles } from "zosLoader:./index.[pf].layout.js"
 
-//debug
-import { getDeviceInfo } from '@zos/device';
-const device = getDeviceInfo()
-const rect = keyboard.getContentRect()
-console.log(
-  'DEVICE:',
-  device.width,
-  device.height,
-  'RECT:',
-  rect.x,
-  rect.y,
-  rect.w,
-  rect.h,
-  'PX100:',
-  px(100),
-  'PX64:',
-  px(64)
-)
 const longPressCharacters = {
   'и': 'ѝ',
   '.': ',',
@@ -139,7 +121,7 @@ DataWidget({
         const shiftButton = createWidget(widget.BUTTON, {
           parent: shiftContainer,
           ...styles.overlayButton,
-        
+
           click_func: () => {
             shiftEnabled = !shiftEnabled
             updateKeyboardCase()
@@ -164,7 +146,7 @@ DataWidget({
           ...styles.shiftImage,
         })
       }
-      
+
       const wideLetters = ["ю", "ш"]
       const extraWideLetters = ["ж", "щ"]
       const hasWideLetters = row.some(letter => wideLetters.includes(letter))
@@ -173,14 +155,14 @@ DataWidget({
         let keyWidth = styles.keyButton.layout.width
 
         if (hasWideLetters) {
-    if (extraWideLetters.includes(letter)) {
-      keyWidth = "10%"
-    } else if (wideLetters.includes(letter)) {
-      keyWidth = "9.5%"
-    } else {
-      keyWidth = "8.1%"
-    }
-  }
+          if (extraWideLetters.includes(letter)) {
+            keyWidth = "10%"
+          } else if (wideLetters.includes(letter)) {
+            keyWidth = "9.5%"
+          } else {
+            keyWidth = "8.1%"
+          }
+        }
 
         const letterWidget = createWidget(widget.BUTTON, {
           parent: rowWidget,

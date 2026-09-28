@@ -16,7 +16,7 @@ Zepp OS devices.
 ## Compatibility
 
 - Zepp OS API Level 4.2+
-- Currently designed and tested for 480 × 480 round devices
+- Square and Round devices support
 
 ## Credits
 
