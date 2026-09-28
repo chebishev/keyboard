@@ -2,8 +2,8 @@ import { keyboard } from '@zos/ui';
 import { getDeviceInfo } from '@zos/device';
 import { px } from '@zos/utils';
 
-const { h } = keyboard.getContentRect();
-const { width: DEVICE_WIDTH } = getDeviceInfo();
+export const { h } = keyboard.getContentRect();
+export const { width: DEVICE_WIDTH } = getDeviceInfo();
 const keyboardButtonColor = 0x000000;
 
 export const styles = {

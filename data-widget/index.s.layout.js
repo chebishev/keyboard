@@ -1,10 +1,5 @@
-import { styles as baseStyles } from "./index.layout";
-import { keyboard } from "@zos/ui";
-import { getDeviceInfo } from "@zos/device";
+import { styles as baseStyles, h, DEVICE_WIDTH } from "./index.layout";
 import { px } from "@zos/utils";
-
-const { h } = keyboard.getContentRect();
-const { width: DEVICE_WIDTH } = getDeviceInfo();
 
 export const styles = {
   ...baseStyles,
