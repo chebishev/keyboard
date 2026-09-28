@@ -57,8 +57,8 @@ export const styles = {
   deleteKey: {
     x: DEVICE_WIDTH - px(100),
     y: h - px(48),
-    w: px(64),
-    h: px(64),
+    w: 64,
+    h: 64,
   },
 
   shiftContainer: {

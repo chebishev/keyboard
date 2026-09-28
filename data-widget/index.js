@@ -7,6 +7,25 @@ import {
 } from '@zos/ui'
 import { styles } from "zosLoader:./index.[pf].layout.js"
 
+//debug
+import { getDeviceInfo } from '@zos/device';
+const device = getDeviceInfo()
+const rect = keyboard.getContentRect()
+console.log(
+  'DEVICE:',
+  device.width,
+  device.height,
+  'RECT:',
+  rect.x,
+  rect.y,
+  rect.w,
+  rect.h,
+  'PX100:',
+  px(100),
+  'PX64:',
+  px(64)
+)
+
 const longPressCharacters = {
   'и': 'ѝ',
   '.': ',',

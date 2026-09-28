@@ -10,9 +10,7 @@ import {
   updateLayout,
   setStatusBarVisible,
 } from "@zos/ui";
-
 import { px } from "@zos/utils";
-
 import { showToast } from "@zos/interaction";
 import { scrollTo } from "@zos/page";
 import { getDeviceInfo, SCREEN_SHAPE_SQUARE } from "@zos/device";
@@ -568,7 +566,7 @@ Page({
         {
           text: "Exit",
           normal_color: menu_button_color,
-          press_color: menu_button_color ,
+          press_color: menu_button_color,
           click_func() {
             exit();
           },
