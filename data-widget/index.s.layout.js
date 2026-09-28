@@ -11,7 +11,7 @@ export const styles = {
     layout: {
       display: "flex",
       flex_flow: "column wrap",
-      justify_content: "center",
+      justify_content: "start",
       align_items: "center",
       align_content: "center",
       top: h + "",
@@ -24,7 +24,7 @@ export const styles = {
     layout: {
       display: "flex",
       flex_flow: "column",
-      gap: "28",
+      gap: "24",
       width: "100%",
       flex_grow: "1",
       top: 10,
@@ -39,14 +39,14 @@ export const styles = {
       align_items: "center",
       align_content: "center",
       width: "100%",
-      height: "12.5vh",
+      height: "13vh",
       column_gap: "2",
     },
   },
 
   keyButton: {
     radius: 10,
-    normal_color: keyboardButtonColor,
+    normal_color: 0xff0000,
     press_color: keyboardButtonColor,
     layout: {
       height: "100%",
@@ -83,14 +83,14 @@ export const styles = {
 
   shiftImage: {
     layout: {
-      width: "32",
-      height: "32",
+      width: "26",
+      height: "26",
     },
   },
 
   actionKeyContainer: {
     layout: {
-      width: "18%",
+      width: "25%",
       height: "100%",
       display: "flex",
       justify_content: "center",

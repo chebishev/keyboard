@@ -25,7 +25,6 @@ console.log(
   'PX64:',
   px(64)
 )
-
 const longPressCharacters = {
   'и': 'ѝ',
   '.': ',',
@@ -165,10 +164,31 @@ DataWidget({
           ...styles.shiftImage,
         })
       }
+      
+      const wideLetters = ["ю", "ш"]
+      const extraWideLetters = ["ж", "щ"]
+      const hasWideLetters = row.some(letter => wideLetters.includes(letter))
+
       row.forEach((letter) => {
+        let keyWidth = styles.keyButton.layout.width
+
+        if (hasWideLetters) {
+    if (extraWideLetters.includes(letter)) {
+      keyWidth = "10%"
+    } else if (wideLetters.includes(letter)) {
+      keyWidth = "9.5%"
+    } else {
+      keyWidth = "8.1%"
+    }
+  }
+
         const letterWidget = createWidget(widget.BUTTON, {
           parent: rowWidget,
           ...styles.keyButton,
+          layout: {
+            ...styles.keyButton.layout,
+            width: keyWidth,
+          },
           text: letter,
 
           click_func: () => {
