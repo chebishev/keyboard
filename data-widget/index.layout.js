@@ -2,8 +2,9 @@ import { keyboard } from '@zos/ui';
 import { getDeviceInfo } from '@zos/device';
 import { px } from '@zos/utils';
 
-const { h } = keyboard.getContentRect()
-const { width: DEVICE_WIDTH } = getDeviceInfo()
+const { h } = keyboard.getContentRect();
+const { width: DEVICE_WIDTH } = getDeviceInfo();
+const keyboardButtonColor = 0x000000;
 
 export const styles = {
   container: {
@@ -44,8 +45,8 @@ export const styles = {
 
   keyButton: {
     radius: 10,
-    normal_color: 0x000000,
-    press_color: 0x000000,
+    normal_color: keyboardButtonColor,
+    press_color: keyboardButtonColor,
     layout: {
       height: "100%",
       width: "8%",
