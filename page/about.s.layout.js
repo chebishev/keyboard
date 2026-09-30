@@ -1,43 +1,24 @@
-import { getText } from "@zos/i18n"
-import { align, text_style, setStatusBarVisible } from "@zos/ui"
-import { px } from "@zos/utils";
+import { setStatusBarVisible } from "@zos/ui"
+import { px } from "@zos/utils"
+
+import {
+  APP_INFO as BASE_APP_INFO,
+  CREATOR_INFO as BASE_CREATOR_INFO,
+  QRCODE as BASE_QRCODE
+} from "./about.layout"
 
 setStatusBarVisible(false)
 
-export const APP_INFO = {
-    x: px(96),
-    y: px(60),
-    w: px(288),
-    h: px(50),
-    color: 0xffffff,
-    text_size: px(22),
-    align_h: align.CENTER_H,
-    align_v: align.CENTER_V,
-    text_style: text_style.WRAP,
-    text: `${getText("appName")}\n${getText("version")}`
-};
+export const APP_INFO = BASE_APP_INFO
 
 export const CREATOR_INFO = {
-    x: px(96),
-    y: px(160),
-    w: px(288),
-    h: px(80),
-    color: 0xffffff,
-    text_size: px(19),
-    align_h: align.CENTER_H,
-    align_v: align.CENTER_V,
-    text_style: text_style.WRAP,
-    text: `${getText("creator")}\n${getText("email")}`
-};
+  ...BASE_CREATOR_INFO,
+  y: px(160),
+  h: px(80)
+}
 
 export const QRCODE = {
-    content: 'https://chebishev.github.io/',
-    x: px(140),
-    y: px(290),
-    w: px(200),
-    h: px(200),
-    bg_x: px(120),
-    bg_y: px(270),
-    bg_w: px(240),
-    bg_h: px(240)
+  ...BASE_QRCODE,
+  y: px(290),
+  bg_y: px(270)
 }
