@@ -1,7 +1,8 @@
+
 import {
   keyboard,
   createWidget,
-  widget as idOfWidget,
+  widget,
   createKeyboard,
   deleteKeyboard,
   align,
@@ -10,600 +11,411 @@ import {
   updateLayout,
   setStatusBarVisible,
 } from "@zos/ui";
+
 import { px } from "@zos/utils";
 import { showToast } from "@zos/interaction";
 import { scrollTo } from "@zos/page";
 import { getDeviceInfo, SCREEN_SHAPE_SQUARE } from "@zos/device";
-import { exit } from "@zos/router";
+import { exit, launchApp, push } from "@zos/router";
 import { getPackageInfo } from "@zos/app";
-import { launchApp, push } from "@zos/router";
 
-const device_info = getDeviceInfo();
+
+const deviceInfo = getDeviceInfo();
 const appName = getPackageInfo().name;
 
-function keyboard_isEnabled() {
+
+function keyboardIsEnabled() {
   if (keyboard.isEnabled) {
     return keyboard.isEnabled();
   }
+
   return true;
 }
 
-function keyboard_isSelected() {
+
+function keyboardIsSelected() {
   if (keyboard.isSelected) {
     return keyboard.isSelected();
   }
+
   return true;
 }
 
-function keyboard_gotoSettings() {
+
+function keyboardGotoSettings() {
   if (keyboard.gotoSettings) {
     return keyboard.gotoSettings();
   }
-  launchApp({ url: "Settings_keyboardScreen", native: true });
+
+  launchApp({
+    url: "Settings_keyboardScreen",
+    native: true,
+  });
 }
 
-const unit = {
-  p(v) {
-    return `${v}%`;
-  },
-  f() {
-    return "100%";
-  },
-  x(v) {
-    return typeof v !== "undefined" ? `${v}` : "0";
-  },
-  z() {
-    return "0";
-  },
-  wrap_content() {
-    return "auto";
-  },
-  vh(v) {
-    return `${v}vw`;
-  },
-  h1() {
-    return "100vh";
-  },
-  vw(v) {
-    return `${v}vw`;
-  },
-  w1() {
-    return "100vw";
-  },
-  il() {
-    return "ignore-layout";
-  },
-  fx() {
-    return "flex";
-  },
-  col() {
-    return "column";
-  },
-  row() {
-    return "row";
-  },
-};
 
-class Ref {
-  constructor(val) {
-    this.current = val;
-  }
-}
-
-function ref(val) {
-  return new Ref(val);
-}
-
-let protoOf = Object.getPrototypeOf;
-let widget_opts_proto = {};
-let objProto = protoOf(widget_opts_proto);
-
-function create_widget_node(ctx, name, ...args) {
-  const id_name = name.toUpperCase();
-  const id = idOfWidget[id_name];
-
-  if (!id) {
-    throw new Error(`error: widget id ${id_name} is not exist`);
-  }
-
-  let [props, ...children] =
-    protoOf(args[0] ?? 0) === objProto ? args : [{}, ...args];
-
-  props.id = id;
-  props.id_name = id_name;
-  props.children = children;
-
-  if (ctx) {
-    props.parent = ctx.parent;
-    props.layout_parent = ctx.layout_parent;
-  }
-
-  return {
-    __proto__: widget_opts_proto,
-    id,
-    props,
-  };
-}
-
-let handler = (ctx) => ({
-  get: (_, name) => create_widget_node.bind(undefined, ctx, name),
-});
-
-let widgets = new Proxy(
-  (ctx) => new Proxy(create_widget_node, handler(ctx)),
-  handler()
-);
-
-function createElement(id_, opts) {
-  let [
-    id,
-    {
-      id_name = "UNKNOWN",
-      ref,
-      layout_parent,
-      parent,
-      children,
-      ...widget_props
-    },
-  ] = protoOf(id_) === widget_opts_proto ? [id_.id, id_.props] : [id_, opts];
-
-  widget_props.parent =
-    layout_parent instanceof Ref ? layout_parent.current : layout_parent;
-
-  if (widget_props.parent) {
-    widget_props.layout = widget_props.layout ?? {};
-  }
-
-  parent = parent instanceof Ref ? parent.current : parent ?? { createWidget };
-  const ele = parent.createWidget(id, widget_props);
-  if (!ele) {
-    throw new Error(`error: create widget ${id} ${id_name} is undefined`);
-  }
-  ele.parent = parent;
-
-  if (ref) {
-    ref.current = ele;
-  }
-
-  if (children && children.length > 0) {
-    let children_parent = ele.parent;
-    let children_layout_parent = ele.layoutParent;
-    if (id === idOfWidget.VIRTUAL_CONTAINER) {
-      children_layout_parent = ele;
-    } else if ([idOfWidget.GROUP, idOfWidget.VIEW_CONTAINER].includes(id)) {
-      children_parent = ele;
-      if (ele.isAutoLayout) {
-        children_layout_parent = ele;
-      }
-    } else {
-      throw new Error(
-        `error: child widget parent ${id} ${id_name} is not container type`
-      );
-    }
-
-    children.forEach((opts) => {
-      let child_id;
-      let child_widget_props;
-      if (Array.isArray(opts)) {
-        child_id = opts[0];
-        child_widget_props = opts[1];
-      } else if (protoOf(opts) === widget_opts_proto) {
-        child_id = opts.id;
-        child_widget_props = opts.props;
-      } else {
-        throw new Error(`error: create child widget opts is error`);
-      }
-
-      child_widget_props.parent = child_widget_props.parent ?? children_parent;
-      child_widget_props.layout_parent =
-        child_widget_props.layout_parent ?? children_layout_parent;
-      createElement(child_id, child_widget_props);
-    });
-  }
-
-  return ele;
-}
-
-function removeElement(ele) {
-  if (ele.getType() === idOfWidget.VIRTUAL_CONTAINER) {
-    const children = ele.layoutChildren;
-    deleteWidget(ele);
-    children.forEach((item) => {
-      removeElement(item);
-    });
-  } else {
-    deleteWidget(ele);
-  }
-}
-
-function default_theme() {
-  if (device_info.screenShape === SCREEN_SHAPE_SQUARE) {
+function defaultTheme() {
+  if (deviceInfo.screenShape === SCREEN_SHAPE_SQUARE) {
     setStatusBarVisible(false);
   }
 }
 
-const default_text_style = {
+
+const defaultTextStyle = {
   color: 0xffffff,
   align_v: align.CENTER_V,
   align_h: align.CENTER_H,
   text_style: text_style.CHAR_WRAP,
 };
 
-const default_layout = {};
-const menu_button_color = 0x0c86d1;
-const menu_button_layout = {
-  width: unit.f(),
+const menuButtonColor = 0x0c86d1;
+
+const menuButtonLayout = {
+  width: "100%",
   height: px(88),
   font_size: px(36),
   corner_radius: px(44),
 };
 
+const pageLayout = {
+  left: "0",
+  top: "0",
+  width: "100vw",
+  height: "100vh",
+  display: "flex",
+  flex_flow: "column",
+  row_gap: px(25),
+  padding_top: px(40),
+  padding_left: px(72),
+  padding_right: px(72),
+};
+
+
+function createPageContainer() {
+  return createWidget(widget.VIRTUAL_CONTAINER, {
+    layout: {
+      ...pageLayout,
+    },
+  });
+}
+
+
+function createMenuButton(parent, text, clickFunc) {
+  return createWidget(widget.BUTTON, {
+    parent,
+    text,
+    normal_color: menuButtonColor,
+    press_color: menuButtonColor,
+    click_func: clickFunc,
+    layout: {
+      ...menuButtonLayout,
+    },
+  });
+}
+
+
+function createBottomSpacer(parent) {
+  return createWidget(widget.FILL_RECT, {
+    parent,
+    layout: {
+      width: "100%",
+      height: px(100),
+    },
+  });
+}
+
+
+function createAboutButton(parent) {
+  return createMenuButton(parent, "About", () => {
+    push({
+      url: "page/about",
+    });
+  });
+}
+
+
+/*
+ * VIRTUAL_CONTAINER keeps its children as layout children, so preserve
+ * the recursive cleanup behavior from the original Zepp sample.
+ */
+function removeElement(element) {
+  if (element.getType() === widget.VIRTUAL_CONTAINER) {
+    const children = element.layoutChildren;
+
+    deleteWidget(element);
+
+    children.forEach((item) => {
+      removeElement(item);
+    });
+  } else {
+    deleteWidget(element);
+  }
+}
+
+
 Page({
   state: {
-    isEnabled: keyboard_isEnabled(),
-    isSelected: keyboard_isSelected(),
+    isEnabled: keyboardIsEnabled(),
+    isSelected: keyboardIsSelected(),
     vc: null,
   },
+
+
   onInit() {
-    default_theme();
+    defaultTheme();
   },
+
+
   build() {
     if (!this.state.isEnabled) {
-      this.build_enable_page();
+      this.buildEnablePage();
     } else if (!this.state.isSelected) {
-      this.build_select_page();
+      this.buildSelectPage();
     } else {
-      this.build_setting_page();
+      this.buildSettingPage();
     }
   },
+
+
   onPause() {
     console.log("pause");
   },
+
+
   onResume() {
     console.log("resume");
-    this.state.isEnabled = keyboard_isEnabled();
-    this.state.isSelected = keyboard_isSelected();
 
-    this.clear_page();
+    this.state.isEnabled = keyboardIsEnabled();
+    this.state.isSelected = keyboardIsSelected();
+
+    this.clearPage();
     this.build();
-    this.refresh_layout();
-    this.scroll_to_top();
+    this.refreshLayout();
+    this.scrollToTop();
   },
-  scroll_to_top() {
+
+
+  scrollToTop() {
     scrollTo({
       y: 0,
     });
   },
-  refresh_layout() {
-    if (this.state.vc && this.state.vc.current) {
-      const ele = this.state.vc.current;
-      updateLayout(ele);
+
+
+  refreshLayout() {
+    if (this.state.vc) {
+      updateLayout(this.state.vc);
     }
   },
-  clear_page() {
-    if (this.state.vc && this.state.vc.current) {
-      const ele = this.state.vc.current;
-      removeElement(ele);
-      this.state.vc.current = null;
+
+
+  clearPage() {
+    if (this.state.vc) {
+      removeElement(this.state.vc);
+      this.state.vc = null;
     }
   },
-  build_enable_page() {
-    const vc = ref(null);
+
+
+  buildEnablePage() {
+    const vc = createPageContainer();
     this.state.vc = vc;
-    [
-      widgets.Virtual_container(
-        {
-          ref: vc,
-          layout: {
-            ...default_layout,
-            left: unit.z(),
-            top: unit.z(),
-            width: unit.w1(),
-            height: unit.h1(),
-            display: unit.fx(),
-            flex_flow: unit.col(),
-            row_gap: px(25),
-            padding_top: px(40),
-            padding_left: px(72),
-            padding_right: px(72),
-          },
-        },
-        widgets.Text({
-          text: `Enable ${appName}`,
-          ...default_text_style,
-          layout: {
-            ...default_layout,
-            width: unit.f(),
-            height: unit.wrap_content(),
-            font_size: px(40),
-          },
-        }),
-        widgets.Virtual_container(
-          {
-            layout: {
-              ...default_layout,
-              width: px(336),
-              height: px(126),
-            },
-          },
-          widgets.Img({
-            src: "image/keyboard_setting.png",
-            auto_scale: true,
-            layout: {
-              ...default_layout,
-              top: unit.z(),
-              left: unit.z(),
-              width: unit.f(),
-              height: unit.f(),
-              tags: unit.il(),
-            },
-          }),
-          widgets.Text({
-            ...default_text_style,
-            text: appName,
-            align_h: align.LEFT,
-            layout: {
-              ...default_layout,
-              left: px(20),
-              width: unit.wrap_content(),
-              max_width: px(200),
-              height: px(70),
-              font_size: px(27),
-              line_clamp: 2,
-            },
-          })
-        ),
-        widgets.Text({
-          text: `Please toggle ${appName} on in settings`,
-          ...default_text_style,
-          layout: {
-            ...default_layout,
-            width: unit.f(),
-            height: unit.wrap_content(),
-            font_size: px(36),
-          },
-        }),
-        widgets.Button({
-          text: "Go to Settings",
-          normal_color: menu_button_color,
-          press_color: menu_button_color,
-          click_func() {
-            keyboard_gotoSettings();
-          },
-          layout: menu_button_layout,
-        }),
-        widgets.Fill_rect({
-          layout: {
-            ...default_layout,
-            width: unit.f(),
-            height: px(100),
-          },
-        })
-      ),
-    ].forEach((opt) => {
-      createElement(opt);
+
+
+    createWidget(widget.TEXT, {
+      parent: vc,
+      text: `Enable ${appName}`,
+      ...defaultTextStyle,
+      layout: {
+        width: "100%",
+        height: "auto",
+        font_size: px(40),
+      },
     });
-  },
-  build_select_page() {
-    const vc = ref(null);
-    this.state.vc = vc;
-    [
-      [
-        idOfWidget.VIRTUAL_CONTAINER,
-        {
-          ref: vc,
-          layout: {
-            ...default_layout,
-            left: unit.z(),
-            top: unit.z(),
-            width: unit.w1(),
-            height: unit.h1(),
-            display: unit.fx(),
-            flex_flow: unit.col(),
-            row_gap: px(25),
-            padding_top: px(40),
-            padding_left: px(72),
-            padding_right: px(72),
-          },
-        },
-      ],
-      [
-        idOfWidget.TEXT,
-        {
-          text: `Enable ${appName}`,
-          ...default_text_style,
-          layout_parent: vc,
-          layout: {
-            ...default_layout,
-            width: unit.f(),
-            height: unit.wrap_content(),
-            font_size: px(40),
-          },
-        },
-      ],
-      [
-        idOfWidget.IMG,
-        {
-          src: "image/keyboard_enable.png",
-          auto_scale: true,
-          layout_parent: vc,
-          layout: {
-            ...default_layout,
-            width: px(336),
-            height: px(126),
-          },
-        },
-      ],
-      [
-        idOfWidget.TEXT,
-        {
-          text: `Touch and hold the Globe key on the keyboard, then select ${appName}`,
-          ...default_text_style,
-          layout_parent: vc,
-          layout: {
-            ...default_layout,
-            width: unit.f(),
-            height: unit.wrap_content(),
-            font_size: px(36),
-          },
-        },
-      ],
-      [
-        idOfWidget.BUTTON,
-        {
-          text: "Show Keyboard",
-          normal_color: menu_button_color,
-          press_color: menu_button_color,
-          click_func: () => {
-            this.keyboard(() => {
-              this.onResume();
-            });
-          },
-          layout_parent: vc,
-          layout: menu_button_layout,
-        },
-      ],
-      [
-        idOfWidget.FILL_RECT,
-        {
-          layout_parent: vc,
-          layout: {
-            ...default_layout,
-            width: unit.f(),
-            height: px(100),
-          },
-        },
-      ],
-    ].forEach(([id, opts]) => {
-      createElement(id, opts);
+
+
+    const imageContainer = createWidget(widget.VIRTUAL_CONTAINER, {
+      parent: vc,
+      layout: {
+        width: px(336),
+        height: px(126),
+      },
     });
+
+
+    createWidget(widget.IMG, {
+      parent: imageContainer,
+      src: "image/keyboard_setting.png",
+      auto_scale: true,
+      layout: {
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100%",
+        tags: "ignore-layout",
+      },
+    });
+
+
+    createWidget(widget.TEXT, {
+      parent: imageContainer,
+      text: appName,
+      ...defaultTextStyle,
+      align_h: align.LEFT,
+      layout: {
+        left: px(20),
+        width: "auto",
+        max_width: px(200),
+        height: px(70),
+        font_size: px(27),
+        line_clamp: 2,
+      },
+    });
+
+
+    createWidget(widget.TEXT, {
+      parent: vc,
+      text: `Please toggle ${appName} on in settings`,
+      ...defaultTextStyle,
+      layout: {
+        width: "100%",
+        height: "auto",
+        font_size: px(36),
+      },
+    });
+
+
+    createMenuButton(vc, "Go to Settings", () => {
+      keyboardGotoSettings();
+    });
+
+    createAboutButton(vc);
+    createBottomSpacer(vc);
   },
-  build_setting_page() {
-    const vc = ref(null);
+
+
+  buildSelectPage() {
+    const vc = createPageContainer();
     this.state.vc = vc;
+
+
+    createWidget(widget.TEXT, {
+      parent: vc,
+      text: `Enable ${appName}`,
+      ...defaultTextStyle,
+      layout: {
+        width: "100%",
+        height: "auto",
+        font_size: px(40),
+      },
+    });
+
+
+    createWidget(widget.IMG, {
+      parent: vc,
+      src: "image/keyboard_enable.png",
+      auto_scale: true,
+      layout: {
+        width: px(336),
+        height: px(126),
+      },
+    });
+
+
+    createWidget(widget.TEXT, {
+      parent: vc,
+      text: `Touch and hold the Globe key on the keyboard, then select ${appName}`,
+      ...defaultTextStyle,
+      layout: {
+        width: "100%",
+        height: "auto",
+        font_size: px(36),
+      },
+    });
+
+
+    createMenuButton(vc, "Show Keyboard", () => {
+      this.keyboard(() => {
+        this.onResume();
+      });
+    });
+
+    createAboutButton(vc);
+    createMenuButton(vc, "Exit", () => {
+      exit();
+    });
+    createBottomSpacer(vc);
+  },
+
+
+  buildSettingPage() {
+    const vc = createPageContainer();
+    this.state.vc = vc;
+
 
     showToast({
       content: "You're all set",
     });
 
-    [
-      [
-        idOfWidget.VIRTUAL_CONTAINER,
-        {
-          ref: vc,
-          layout: {
-            ...default_layout,
-            left: unit.z(),
-            top: unit.z(),
-            width: unit.w1(),
-            height: unit.h1(),
-            display: unit.fx(),
-            flex_flow: unit.col(),
-            row_gap: px(25),
-            padding_top: px(40),
-            padding_left: px(72),
-            padding_right: px(72),
-          },
-        },
-      ],
-      [
-        idOfWidget.TEXT,
-        {
-          text: appName,
-          ...default_text_style,
-          layout_parent: vc,
-          layout: {
-            ...default_layout,
-            width: unit.f(),
-            height: unit.wrap_content(),
-            font_size: px(40),
-          },
-        },
-      ],
-      [
-        idOfWidget.BUTTON,
-        {
-          text: "Show Keyboard",
-          normal_color: menu_button_color,
-          press_color: menu_button_color,
-          click_func: () => {
-            this.keyboard();
-          },
-          layout_parent: vc,
-          layout: menu_button_layout,
-        },
-      ],
-      [
-        idOfWidget.BUTTON,
-        {
-          text: "Go To Settings",
-          normal_color: menu_button_color,
-          press_color: menu_button_color,
-          click_func: () => {
-            keyboard_gotoSettings();
-          },
-          layout_parent: vc,
-          layout: menu_button_layout,
-        },
-      ],
-      [
-        idOfWidget.BUTTON,
-        {
-          text: "About",
-          normal_color: menu_button_color,
-          press_color: menu_button_color,
-          click_func() {
-            push({
-              url: "page/about",
-            })
-          },
-          layout_parent: vc,
-          layout: menu_button_layout,
-        },
-      ],
-      [
-        idOfWidget.BUTTON,
-        {
-          text: "Exit",
-          normal_color: menu_button_color,
-          press_color: menu_button_color,
-          click_func() {
-            exit();
-          },
-          layout_parent: vc,
-          layout: menu_button_layout,
-        },
-      ],
-      [
-        idOfWidget.FILL_RECT,
-        {
-          layout_parent: vc,
-          layout: {
-            ...default_layout,
-            width: unit.f(),
-            height: px(100),
-          },
-        },
-      ],
-    ].forEach(([id, opts]) => {
-      createElement(id, opts);
+
+    createWidget(widget.TEXT, {
+      parent: vc,
+      text: appName,
+      ...defaultTextStyle,
+      layout: {
+        width: "100%",
+        height: "auto",
+        font_size: px(40),
+      },
     });
+
+
+    createMenuButton(vc, "Show Keyboard", () => {
+      this.keyboard();
+    });
+
+
+    createMenuButton(vc, "Go To Settings", () => {
+      keyboardGotoSettings();
+    });
+
+
+    createAboutButton(vc);
+
+
+    createMenuButton(vc, "Exit", () => {
+      exit();
+    });
+
+
+    createBottomSpacer(vc);
   },
+
 
   keyboard(cb) {
     createKeyboard({
       onComplete: (kb, result) => {
         console.log("complete");
+
         deleteKeyboard();
+
         showToast({
           content: "Input: " + result.data,
         });
-        cb && cb();
+
+        if (cb) {
+          cb();
+        }
       },
+
       onCancel: () => {
         console.log("cancel");
+
         deleteKeyboard();
-        cb && cb();
+
+        if (cb) {
+          cb();
+        }
       },
     });
   },
