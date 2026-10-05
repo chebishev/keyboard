@@ -25,7 +25,9 @@ https://github.com/zepp-health/zeppos-samples/tree/main/application/4.2/simple-k
 
 ## Screenshots
 ![Image](./assets/default.r/icon.png)
-![Image](./screenshots/keyboard.png)
+![Image](./screenshots/empty_keyboard.png)
+![Image](./screenshots/longpress_features.png)
+![Image](./screenshots/shift_enabled.png)
 ![Image](./screenshots/about.png)
 
 ## License

@@ -36,7 +36,7 @@ function addImagePressEffect(button, image) {
     image.setAlpha(182)
   })
 
-   button.addEventListener(event.CLICK_UP, () => {
+  button.addEventListener(event.CLICK_UP, () => {
     if (image === deleteImage && hideDeleteOnRelease) {
       image.setAlpha(0)
       hideDeleteOnRelease = false
@@ -105,7 +105,7 @@ DataWidget({
         const text = keyboard.getTextContext()
 
         hideDeleteOnRelease = text.length === 1
-        
+
         keyboard.backspace(1)
 
         updateInputState(text.length > 1)
@@ -298,8 +298,8 @@ DataWidget({
       }
 
       if (key.type === "enter") {
-  actionImage = img
-}
+        actionImage = img
+      }
     })
   },
   onResume() {
