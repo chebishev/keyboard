@@ -17,6 +17,8 @@ let shiftImage = null;
 let deleteImage = null;
 let deleteButton = null;
 let globeImage = null;
+let actionImage = null;
+let hideDeleteOnRelease = false
 
 function updateKeyboardCase() {
   letterWidgets.forEach((key) => {
@@ -29,14 +31,18 @@ function updateKeyboardCase() {
   })
 }
 
-
 function addImagePressEffect(button, image) {
   button.addEventListener(event.CLICK_DOWN, () => {
     image.setAlpha(182)
   })
 
-  button.addEventListener(event.CLICK_UP, () => {
-    image.setAlpha(255)
+   button.addEventListener(event.CLICK_UP, () => {
+    if (image === deleteImage && hideDeleteOnRelease) {
+      image.setAlpha(0)
+      hideDeleteOnRelease = false
+    } else {
+      image.setAlpha(255)
+    }
   })
 }
 
@@ -54,6 +60,16 @@ function addLetterPressEffect(button) {
       color: 0xffffff,
     })
   })
+}
+
+function updateInputState(hasText = keyboard.getTextContext().length > 0) {
+  actionImage.setProperty(
+    prop.SRC,
+    hasText ? "image/check.png" : "image/cancel.png"
+  )
+
+  deleteImage.setAlpha(hasText ? 255 : 0)
+  deleteButton.setEnable(hasText)
 }
 
 DataWidget({
@@ -86,11 +102,18 @@ DataWidget({
       ...styles.deleteKey,
 
       click_func: () => {
-        keyboard.sendFnKey(keyboard.BACKSPACE)
+        const text = keyboard.getTextContext()
+
+        hideDeleteOnRelease = text.length === 1
+        
+        keyboard.backspace(1)
+
+        updateInputState(text.length > 1)
       },
 
       longpress_func: () => {
         keyboard.clearInput()
+        updateInputState()
       },
     })
 
@@ -179,6 +202,7 @@ DataWidget({
               : letter
 
             keyboard.inputText(output)
+            updateInputState()
           },
           longpress_func: () => {
             const character = longPressCharacters[letter]
@@ -190,6 +214,7 @@ DataWidget({
               : character
 
             keyboard.inputText(output)
+            updateInputState()
           }
         })
 
@@ -225,6 +250,7 @@ DataWidget({
         src: "image/blank.png", action: () => {
           // add empty space to the text
           keyboard.inputText(" ")
+          updateInputState()
         }
 
       },
@@ -270,6 +296,10 @@ DataWidget({
       if (key.type === "globe") {
         globeImage = img
       }
+
+      if (key.type === "enter") {
+  actionImage = img
+}
     })
   },
   onResume() {
@@ -277,6 +307,8 @@ DataWidget({
     if (globeImage) {
       globeImage.setAlpha(255)
     }
+
+    updateInputState()
   },
 
   onDestroy() {
