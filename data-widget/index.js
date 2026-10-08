@@ -11,6 +11,7 @@ const longPressCharacters = {
   'и': 'ѝ',
   '.': ',',
 }
+
 let shiftEnabled = false;
 const letterWidgets = [];
 let shiftImage = null;
