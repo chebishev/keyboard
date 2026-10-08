@@ -2,7 +2,7 @@
 
 Bulgarian Phonetic Traditional keyboard for Zepp OS.
 
-BGPT Keyboard provides a Bulgarian phonetic traditionalkeyboard for compatible
+BGPT Keyboard provides a Bulgarian phonetic traditional keyboard for compatible
 Zepp OS devices.
 
 ## Features
