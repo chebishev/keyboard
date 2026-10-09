@@ -6,6 +6,14 @@ import {
   event,
 } from '@zos/ui'
 import { styles } from "zosLoader:./index.[pf].layout.js"
+import { Vibrator } from "@zos/sensor"
+
+const vibro = new Vibrator
+
+function vibrate() {
+  vibro.setMode(20)
+  vibro.start()
+}
 
 const longPressCharacters = {
   'и': 'ѝ',
@@ -123,6 +131,7 @@ DataWidget({
       longpress_func: () => {
         keyboard.clearInput()
         updateInputState()
+        vibrate()
       },
     })
 
@@ -157,6 +166,7 @@ DataWidget({
           click_func: () => {
             shiftEnabled = !shiftEnabled
             updateKeyboardCase()
+            vibrate()
 
             // change shift icon for each press according to the state
             shiftImage.setProperty(
