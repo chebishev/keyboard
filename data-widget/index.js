@@ -6,12 +6,12 @@ import {
   event,
 } from '@zos/ui'
 import { styles } from "zosLoader:./index.[pf].layout.js"
-import { Vibrator, VIBRATOR_SCENE_DURATION } from "@zos/sensor"
+import { Vibrator } from "@zos/sensor"
 
 const vibro = new Vibrator
 
 function vibrate() {
-  vibro.setMode(VIBRATOR_SCENE_DURATION)
+  vibro.setMode(27)
   vibro.start()
 }
 
