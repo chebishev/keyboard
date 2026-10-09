@@ -5,8 +5,8 @@
     "appName": "BGPT Keyboard",
     "appType": "app",
     "version": {
-      "code": 6,
-      "name": "1.2.1"
+      "code": 7,
+      "name": "1.2.2"
     },
     "icon": "icon.png",
     "vender": "chebishev",
