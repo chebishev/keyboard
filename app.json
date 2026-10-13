@@ -1,16 +1,16 @@
 {
   "configVersion": "v3",
   "app": {
-    "appId": 1128857,
-    "appName": "BGPT Keyboard",
+    "appId": 1131098,
+    "appName": "Greek Keyboard",
     "appType": "app",
     "version": {
       "code": 7,
-      "name": "1.2.2"
+      "name": "1.0.0"
     },
     "icon": "icon.png",
     "vender": "chebishev",
-    "description": "Bulgarian phonetic traditional keyboard"
+    "description": "Greek keyboard with a traditional Greek QWERTY layout for Zepp OS."
   },
   "permissions": [
     "device:os.input.method",
@@ -36,13 +36,13 @@
         "data-widget": {
           "widgets": [
             {
-              "name": "BGPT Keyboard",
+              "name": "Greek Keyboard",
               "path": "data-widget/index",
               "icon": "icon.png",
               "runtime": {
                 "ability": [
                   {
-                    "name": "en-US",
+                    "name": "el-GR",
                     "type": 2,
                     "subType": []
                   }
@@ -66,7 +66,10 @@
   },
   "i18n": {
     "en-US": {
-      "appName": "BGPT Keyboard"
+      "appName": "Greek Keyboard"
+    },
+    "el-GR": {
+      "appName": "Ελληνικό Πληκτρολόγιο"
     }
   },
   "defaultLanguage": "en-US"

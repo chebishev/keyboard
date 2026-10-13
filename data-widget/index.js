@@ -251,7 +251,7 @@ DataWidget({
         ...styles.keyboardRow.layout,
       },
     })
-    // switch EN/BG, space, enter/cancel
+    // switch EN/GR, space, enter/cancel
     const actionKeys = [
       {
         type: "globe",
@@ -340,6 +340,6 @@ DataWidget({
   },
 
   onDestroy() {
-    console.log('BG keyboard: onDestroy')
+    console.log('GR keyboard: onDestroy')
   },
 })

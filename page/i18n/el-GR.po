@@ -1,0 +1,48 @@
+// about.layout.js
+
+msgid "ver"
+msgstr "\nέκδ. "
+
+msgid "creator"
+msgstr "Αυτή η εφαρμογή δημιουργήθηκε από τον "
+
+msgid "email"
+msgstr "Σχόλια: suffer@abv.bg"
+
+msgid "link"
+msgstr "https://chebishev.github.io"
+
+// index.js
+
+msgid "menuButtonFontSize"
+msgstr "32"
+
+msgid "enable"
+msgstr "Ενεργοποίηση "
+
+msgid "toggle"
+msgstr "Ενεργοποιήστε το "
+
+msgid "onInSettings"
+msgstr " στις ρυθμίσεις"
+
+msgid "goToSettings"
+msgstr "Μετάβαση στις ρυθμίσεις"
+
+msgid "touchHoldSelect"
+msgstr "Αγγίξτε παρατεταμένα το πλήκτρο της υδρογείου στο πληκτρολόγιο και επιλέξτε "
+
+msgid "showKeyboard"
+msgstr "Εμφάνιση πληκτρολογίου"
+
+msgid "about"
+msgstr "Σχετικά"
+
+msgid "exit"
+msgstr "Έξοδος"
+
+msgid "youAreAllSet"
+msgstr "Όλα είναι έτοιμα"
+
+msgid "input"
+msgstr "Εισαγωγή: "

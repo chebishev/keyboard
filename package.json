@@ -1,7 +1,7 @@
 {
-  "name": "BGPT Keyboard",
-  "version": "1.2.2",
-  "description": "Bulgarian phonetic traditional keyboard",
+  "name": "Greek Keyboard",
+  "version": "1.0.0",
+  "description": "Greek keyboard with a traditional Greek QWERTY layout for Zepp OS.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
