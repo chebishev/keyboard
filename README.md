@@ -1,17 +1,25 @@
-# BGPT Keyboard
+# Greek Keyboard
 
-Bulgarian Phonetic Traditional keyboard for Zepp OS.
+Greek keyboard with a traditional Greek QWERTY layout for Zepp OS.
 
-BGPT Keyboard provides a Bulgarian phonetic traditional keyboard for compatible
+Greek Keyboard provides a traditional Greek layout for compatible
 Zepp OS devices.
 
 ## Features
 
-- Bulgarian phonetic traditional keyboard layout
+- Greek keyboard with a traditional Greek QWERTY layout
 - Lowercase and uppercase input
-- Long press `и` for `ѝ`
-- Long press `.` for `,`
+- Longpress ';' for ':'
+- Longpress '.' for ','
+- Longpress 'ε' for 'έ'
+- Longpress 'υ' for 'ύ'
+- Longpress 'ο' for 'ό'
+- Longpress 'ι' for 'ί'
+- Longpress 'η' for 'ή'
+- Longpress 'α' for 'ά'
+- Longpress 'ω' for 'ώ'
 - Integration with the Zepp OS input method system
+- English and Greek interface, depending on the watch language
 
 ## Compatibility
 
