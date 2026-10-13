@@ -24,7 +24,7 @@ export const styles = {
     layout: {
       display: "flex",
       flex_flow: "column",
-      gap: "24",
+      gap: "18",
       width: "100%",
       flex_grow: "1",
     },
@@ -38,7 +38,7 @@ export const styles = {
       align_items: "center",
       align_content: "center",
       width: "100%",
-      height: "12.2vh",
+      height: "13.3vh",
       column_gap: "2",
     },
   },
@@ -49,7 +49,7 @@ export const styles = {
     press_color: keyboardButtonColor,
     layout: {
       height: "100%",
-      width: "8%",
+      width: "8.3%",
       font_size: "40",
     },
   },
@@ -89,7 +89,7 @@ export const styles = {
 
   actionKeyContainer: {
     layout: {
-      width: "18%",
+      width: "17%",
       height: "100%",
       display: "flex",
       justify_content: "center",

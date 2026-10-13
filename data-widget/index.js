@@ -16,8 +16,15 @@ function vibrate() {
 }
 
 const longPressCharacters = {
-  'и': 'ѝ',
+  ';': ':',
   '.': ',',
+  'ε': 'έ',
+  'υ': 'ύ',
+  'ο': 'ό',
+  'ι': 'ί',
+  'η': 'ή',
+  'α': 'ά',
+  'ω': 'ώ',
 }
 
 let shiftEnabled = false;
@@ -95,7 +102,6 @@ DataWidget({
   },
   build() {
     console.log("BUILD")
-
     // Main container
     const vc = createWidget(widget.VIRTUAL_CONTAINER, {
       ...styles.container,
@@ -140,10 +146,10 @@ DataWidget({
     addImagePressEffect(deleteButton, deleteImage)
 
     const rows = [
-      ['я', 'в', 'е', 'р', 'т', 'ъ', 'у', 'и', 'о', 'п', 'ч'],
-      ['а', 'с', 'д', 'ф', 'г', 'х', 'й', 'к', 'л', 'ш', 'щ'],
-      ['з', 'ь', 'ц', 'ж', 'б', 'н', 'м', 'ю', '.'],
-    ]
+  [';', 'ς', 'ε', 'ρ', 'τ', 'υ', 'θ', 'ι', 'ο', 'π'],
+  ['α', 'σ', 'δ', 'φ', 'γ', 'η', 'ξ', 'κ', 'λ'],
+  ['ζ', 'χ', 'ψ', 'ω', 'β', 'ν', 'μ', '.'],
+]
 
     rows.forEach((row, rowIndex) => {
       // Each array becomes its own flex row
@@ -189,22 +195,8 @@ DataWidget({
         })
       }
 
-      const wideLetters = ["ю", "ш"]
-      const extraWideLetters = ["ж", "щ"]
-      const hasWideLetters = row.some(letter => wideLetters.includes(letter))
-
       row.forEach((letter) => {
         let keyWidth = styles.keyButton.layout.width
-
-        if (hasWideLetters) {
-          if (extraWideLetters.includes(letter)) {
-            keyWidth = "10%"
-          } else if (wideLetters.includes(letter)) {
-            keyWidth = "9.5%"
-          } else {
-            keyWidth = "8.1%"
-          }
-        }
 
         const letterWidget = createWidget(widget.BUTTON, {
           parent: rowWidget,

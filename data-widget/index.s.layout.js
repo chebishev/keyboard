@@ -16,7 +16,7 @@ export const styles = {
     ...baseStyles.keyboardRow,
     layout: {
       ...baseStyles.keyboardRow.layout,
-      height: "13vh",
+      height: "13.5vh",
     },
   },
 
@@ -47,7 +47,7 @@ export const styles = {
     ...baseStyles.actionKeyContainer,
     layout: {
       ...baseStyles.actionKeyContainer.layout,
-      width: "25%",
+      width: "20%",
     },
   },
 };
