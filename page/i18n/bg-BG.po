@@ -1,0 +1,51 @@
+// about.layout.js
+
+msgid "ver"
+msgstr "\nвер. "
+
+msgid "creator"
+msgstr "Това приложение е създадено от "
+
+msgid "email"
+msgstr "Обратна връзка: suffer@abv.bg"
+
+msgid "link"
+msgstr "https://chebishev.github.io"
+
+// index.js
+
+msgid "appNameFontSize"
+msgstr "36"
+
+msgid "menuButtonFontSize"
+msgstr "36"
+
+msgid "enable"
+msgstr "Включване на "
+
+msgid "toggle"
+msgstr "Моля, включете "
+
+msgid "onInSettings"
+msgstr " в настройките"
+
+msgid "goToSettings"
+msgstr "Към настройките"
+
+msgid "touchHoldSelect"
+msgstr "Натиснете и задръжте бутона с планетката на клавиатурата. След това изберете "
+
+msgid "showKeyboard"
+msgstr "Към клавиатурата"
+
+msgid "about"
+msgstr "За приложението"
+
+msgid "exit"
+msgstr "Изход"
+
+msgid "youAreAllSet"
+msgstr "Всичко е настроено"
+
+msgid "input"
+msgstr "Въвеждане: "

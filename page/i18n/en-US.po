@@ -1,14 +1,50 @@
-msgid "appName"
-msgstr "BGPT Keyboard"
+// about.layout.js
 
-msgid "version"
-msgstr "ver. 1.2.2"
+msgid "ver"
+msgstr "\nver. "
 
 msgid "creator"
-msgstr "This app is created by chebishev"
+msgstr "This app is created by "
 
 msgid "email"
 msgstr "Feedback: suffer@abv.bg"
 
 msgid "link"
 msgstr "https://chebishev.github.io"
+
+// index.js
+msgid "appNameFontSize"
+msgstr "40"
+
+msgid "menuButtonFontSize"
+msgstr "36"
+
+msgid "enable"
+msgstr "Enable "
+
+msgid "toggle"
+msgstr "Please toggle "
+
+msgid "onInSettings"
+msgstr " on in settings"
+
+msgid "goToSettings"
+msgstr "Go to settings"
+
+msgid "touchHoldSelect"
+msgstr "Touch and hold the Globe key on the keyboard, then select "
+
+msgid "showKeyboard"
+msgstr "Show keyboard"
+
+msgid "about"
+msgstr "About"
+
+msgid "exit"
+msgstr "Exit"
+
+msgid "youAreAllSet"
+msgstr "You're all set"
+
+msgid "input"
+msgstr "Input: "

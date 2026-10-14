@@ -5,8 +5,8 @@
     "appName": "BGPT Keyboard",
     "appType": "app",
     "version": {
-      "code": 7,
-      "name": "1.2.2"
+      "code": 8,
+      "name": "1.2.3"
     },
     "icon": "icon.png",
     "vender": "chebishev",
@@ -67,6 +67,9 @@
   "i18n": {
     "en-US": {
       "appName": "BGPT Keyboard"
+    },
+    "bg-BG": {
+      "appName": "БГФТ Клавиатура"
     }
   },
   "defaultLanguage": "en-US"

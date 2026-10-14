@@ -12,6 +12,8 @@ Zepp OS devices.
 - Long press `и` for `ѝ`
 - Long press `.` for `,`
 - Integration with the Zepp OS input method system
+- The supports bulgarian and english interface, depending on the watch language
+(at this point there is no Bulgarian in zepp watches so it is a just feature for the future)
 
 ## Compatibility
 
